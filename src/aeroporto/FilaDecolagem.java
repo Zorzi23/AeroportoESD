@@ -1,5 +1,8 @@
 package aeroporto;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 import listas_lineares.Fila;
 
 public class FilaDecolagem extends Fila<Aeronave> {
@@ -42,6 +45,39 @@ public class FilaDecolagem extends Fila<Aeronave> {
         Aeronave[] aAeronaves = this.getAeronaves();
 
         return aAeronaves[iAeronave];
+    }
+
+    //#endregion
+
+    //#region Métodos Publicos
+
+    public FilaDecolagem ordenarPrioridade() {
+        
+        Aeronave[] aElementos = new Aeronave[this.getTamanho()];
+
+        FilaDecolagem aFilaDecolagem = new FilaDecolagem(this.getCapacidade());
+
+        for(int iAeronave = 0; iAeronave < this.getTamanho(); iAeronave++) {
+            aElementos[iAeronave] = aFilaDecolagem.desenfileirar();
+        }
+
+        Arrays.sort(aElementos, new Comparator<Aeronave>() { // ordena o array com base na prioridade
+            @Override
+            public int compare(Aeronave oAeronave1, Aeronave oAeronave2) {
+
+                if (oAeronave1 == null || oAeronave2 == null) {
+                    return 0;
+                }
+
+                return oAeronave1.getPrioridade() - oAeronave2.getPrioridade();
+            }
+        });
+
+        for(int iAeronave = 0; iAeronave < this.getTamanho(); iAeronave++) {
+            aFilaDecolagem.enfileirar(aElementos[iAeronave]);
+        }
+
+        return aFilaDecolagem;
     }
 
     //#endregion

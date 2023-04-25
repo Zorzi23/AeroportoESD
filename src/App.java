@@ -7,8 +7,6 @@ public class App {
         Aeroporto oGaleao = new Aeroporto("Galeão", 2);        
 
         ControllerAeroporto.getInstance().gerenciar(oGaleao);
-
-        System.out.println(oGaleao.getPistas());
     }
 }
  

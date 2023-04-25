@@ -1,6 +1,9 @@
 package listas_lineares;
 
-public class Fila<T> {
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class Fila<T> implements Iterable<T> {
 
     //#region Atributos/Constantes
 
@@ -13,6 +16,34 @@ public class Fila<T> {
     protected int iInicio = 0;
 
     protected int iFim = -1;
+
+    //#endregion
+
+    //#region Iterator
+
+    @Override
+    public Iterator<T> iterator() {
+        return new FilaIterator();
+    }
+
+    private class FilaIterator implements Iterator<T> {
+
+        private int iAtual = iInicio;
+
+        @Override
+        public boolean hasNext() {
+            return iAtual < iTamanho;
+        }
+
+        @Override
+        public T next() {
+            if (!hasNext()) {
+                return null;
+            }
+            T element = getElementos()[(iAtual++) % getCapacidade()];
+            return element;
+        }
+    }
 
     //#endregion
 
@@ -112,7 +143,7 @@ public class Fila<T> {
 
     //#region Métodos Privados
 
-    private T[] criaArray(int iTamanho) {
+    protected T[] criaArray(int iTamanho) {
         return (T[]) new Object[iTamanho];
     }
 
@@ -128,17 +159,20 @@ public class Fila<T> {
             
             T oElemento = this.getElementos()[(this.iInicio + iElemento) % this.getElementos().length];
 
-            oString.append("{ ");
+            oString.append("\n");
+            oString.append(" { ");
             oString.append(oElemento.toString());
-            oString.append("} ");
-
+            oString.append(" } ");
+            oString.append("\n");
+            
             if (iElemento < this.getTamanho() - 1) {
                 oString.append(", ");
             }
-
+            
         }
-
-        oString.append(" ]");
+        
+        oString.append("]");
+        oString.append("\n");
         return oString.toString();
     }
 

@@ -4,8 +4,15 @@ public class Aeronave {
 
     //#region Atributos/Constantes
 
+    public static final int COMBUSTIVEL_PADRAO = 100;
+    public static final int PRIORIDADE_BAIXA = 1;
+    public static final int PRIORIDADE_MEDIA = 2;
+    public static final int PRIORIDADE_ALTA  = 3;
+
     private int iId;
     private int iTempoEspera = 0;
+    private int iCombustivel = COMBUSTIVEL_PADRAO;
+    private int iPrioridade = PRIORIDADE_BAIXA;
     private TipoOperacao eTipoOperacao = TipoOperacao.ESPERA;
     private String sCompanhia;
     
@@ -66,6 +73,36 @@ public class Aeronave {
         return this;
     }
 
+    public int getCombustivel() {
+        return this.iCombustivel;
+    }
+
+    public Aeronave setCombustivel(int iCombustivel) {
+        this.iCombustivel = iCombustivel;
+        return this;
+    }
+
+    public int getPrioridade() {
+        return this.iPrioridade;
+    }
+
+    public Aeronave setPrioridade(int iPrioridade) {
+        this.iPrioridade = iPrioridade;
+        return this;
+    }
+
+    public String getDescricaoPrioridade() {
+
+        if(this.getPrioridade() == PRIORIDADE_ALTA) {
+            return "ALTA";
+        }
+        else if(this.getPrioridade() == PRIORIDADE_MEDIA) {
+            return "MÉDIA";
+        }
+
+        return "BAIXA";
+    }
+
     //#endregion
 
     //#region toString
@@ -82,6 +119,12 @@ public class Aeronave {
         oStringBuilder.append(", tempo de espera: ");
         oStringBuilder.append(this.getTempoEspera());
         oStringBuilder.append(" min");
+        oStringBuilder.append(", combustivel: ");
+        oStringBuilder.append(this.getCombustivel());
+        oStringBuilder.append(" L");
+        oStringBuilder.append(", Prioridade: ");
+        oStringBuilder.append(this.getDescricaoPrioridade());
+        oStringBuilder.append(" ");
         return oStringBuilder.toString();
     }
 

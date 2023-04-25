@@ -11,7 +11,10 @@ public class Pista {
     private FilaAterrisagem oFilaAterrisagem;
     private FilaDecolagem   oFilaDecolagem;
 
-    private final int CAPACIDADE_PADRAO = 5;
+    private Aeronave oAeronaveAterrisagem;
+    private Aeronave oAeronaveDecolagem;
+
+    public static final int CAPACIDADE_PADRAO = 5;
 
     //#endregion
 
@@ -19,8 +22,8 @@ public class Pista {
     
     public Pista(String sNome) {
         this.setNome(sNome);
-        this.setFilaAterrisagem(new FilaAterrisagem(this.CAPACIDADE_PADRAO));
-        this.setFilaDecolagem(new FilaDecolagem(this.CAPACIDADE_PADRAO));
+        this.setFilaAterrisagem(new FilaAterrisagem(CAPACIDADE_PADRAO));
+        this.setFilaDecolagem(new FilaDecolagem(CAPACIDADE_PADRAO));
     }
 
     //#endregion
@@ -73,6 +76,60 @@ public class Pista {
 
     public int getCapacidadeFilaAterrisagem() {
         return this.oFilaAterrisagem.getCapacidade();
+    }
+
+    public void setAeronaveAterrisagem(Aeronave oAeronaveAterrisagem) {
+        this.oAeronaveAterrisagem = oAeronaveAterrisagem.setTipoOperacao(TipoOperacao.ATERRISANDO);
+    }
+
+    public Aeronave getAeronaveAterrisagem() {
+        return this.oAeronaveAterrisagem;
+    }
+
+    public void setAeronaveDecolagem(Aeronave oAeronaveDecolagem) {
+        this.oAeronaveDecolagem = oAeronaveDecolagem.setTipoOperacao(TipoOperacao.DECOLANDO);
+    }
+
+    public Aeronave getAeronaveDecolagem() {
+        return this.oAeronaveDecolagem;
+    }
+
+    public boolean isOcupada() {
+        return this.getEstado() == EstadoPista.OCUPADA;
+    }
+
+    //#endregion
+
+    //#region Métodos Publicos
+
+    public Aeronave decolar() {
+        
+        FilaDecolagem aFilaDecolagemPrioridade = this.getFilaDecolagem(); 
+
+        this.setAeronaveDecolagem(aFilaDecolagemPrioridade.getPrimeiro());
+        
+        Aeronave oAeronaveDecolada = aFilaDecolagemPrioridade.desenfileirar().setTipoOperacao(TipoOperacao.DECOLADO);
+
+        System.out.println("\n");
+        System.out.println(oAeronaveDecolada);
+        System.out.println("\n");
+        
+        return oAeronaveDecolada;
+    }
+
+    public Aeronave aterrisar() {
+
+        FilaAterrisagem aFilaAterrisagemPrioridade = this.getFilaAterrisagem(); 
+
+        this.setAeronaveAterrisagem(aFilaAterrisagemPrioridade.getPrimeiro());
+        
+        Aeronave oAeronaveAterrisada = aFilaAterrisagemPrioridade.desenfileirar().setTipoOperacao(TipoOperacao.ATERRISADO);
+
+        System.out.println("\n");
+        System.out.println(oAeronaveAterrisada);
+        System.out.println("\n");
+
+        return oAeronaveAterrisada;
     }
 
     //#endregion

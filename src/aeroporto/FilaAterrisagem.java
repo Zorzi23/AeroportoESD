@@ -1,5 +1,8 @@
 package aeroporto;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 import listas_lineares.Fila;
 
 public class FilaAterrisagem extends Fila<Aeronave> {
@@ -11,14 +14,6 @@ public class FilaAterrisagem extends Fila<Aeronave> {
 
     public FilaAterrisagem(int iCapacidade) {
         super(iCapacidade);
-    }
-
-    public void adicionarAeronave(Aeronave oAeronave) {
-        super.enfileirar(oAeronave.setTipoOperacao(TipoOperacao.ATERRISAGEM));
-    }
-
-    public void removerAeronave(Aeronave oAeronave) {
-        super.desenfileirar();
     }
 
     //#endregion
@@ -46,4 +41,34 @@ public class FilaAterrisagem extends Fila<Aeronave> {
 
     //#endregion
 
+    //#region Métodos Públicos
+
+    public void adicionarAeronave(Aeronave oAeronave) {
+        super.enfileirar(oAeronave.setTipoOperacao(TipoOperacao.ATERRISAGEM));
+    }
+    
+    public void removerAeronave() {
+        super.desenfileirar();
+    }
+
+    public FilaAterrisagem ordenarPrioridade() {
+
+        Aeronave[] aElementos = this.getAeronaves();
+    
+        Arrays.sort(aElementos, new Comparator<Aeronave>() {
+            public int compare(Aeronave oAeronave1, Aeronave oAeronave2) {
+                return oAeronave2.getCombustivel() - oAeronave1.getCombustivel();
+            }
+        });
+    
+        FilaAterrisagem aFilaAterrisagem = new FilaAterrisagem(this.getCapacidade());
+    
+        for(int iAeronave = 0; iAeronave < this.getTamanho(); iAeronave++) {
+            aFilaAterrisagem.enfileirar(aElementos[iAeronave]);
+        }
+    
+        return aFilaAterrisagem;
+    }
+
+    //#endregion
 }

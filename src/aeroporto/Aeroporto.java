@@ -39,6 +39,28 @@ public class Aeroporto {
         return this.aPistas;
     }
 
+    public boolean isFilasAterrisagemVazias() {
+
+        for(Pista oPista: this.getPistas()) {
+            if(oPista.getFilaAterrisagem().isVazia()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isFilasDecolagemVazias() {
+
+        for(Pista oPista: this.getPistas()) {
+            if(oPista.getFilaDecolagem().isVazia()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     //#endregion
     
     //#region Métodos Publicos

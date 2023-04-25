@@ -20,7 +20,7 @@ public class AeronaveFactory {
         return oAeronave;
     }
 
-    public ListaEncadeada<Aeronave> criarAeronaves(int iQuantidade) {
+    public ListaEncadeada<Aeronave> criarAeronavesRandom(int iQuantidade) {
 
         ListaEncadeada<Aeronave> oAeronaves = new ListaEncadeada<Aeronave>();
 
@@ -34,8 +34,47 @@ public class AeronaveFactory {
             String sCompanhia = aCompanhias[oRandom.nextInt(aCompanhias.length)];
             TipoOperacao eTipoOperacao = aTiposOperacao[oRandom.nextInt(aTiposOperacao.length)];
             int iTempoEspera = oRandom.nextInt(21);
+            int iCombustivel = oRandom.nextInt(101);
 
             Aeronave oAeronave = this.criarAeronave(sCompanhia, eTipoOperacao, iTempoEspera);
+            oAeronave.setCombustivel(iCombustivel);
+
+            if(oAeronave.getCombustivel() < 20 || oAeronave.getTempoEspera() > 20) {
+                oAeronave.setPrioridade(Aeronave.PRIORIDADE_ALTA);
+            }
+            else if(oAeronave.getCombustivel() < 40 || oAeronave.getTempoEspera() > 10) {
+                oAeronave.setPrioridade(Aeronave.PRIORIDADE_MEDIA);
+            }
+
+            oAeronaves.adicionar(oAeronave);
+        }
+
+        return oAeronaves;
+    }
+
+    public ListaEncadeada<Aeronave> criarAeronavesTipoOperacao(int iQuantidade, TipoOperacao eTipoOperacao) {
+
+        ListaEncadeada<Aeronave> oAeronaves = new ListaEncadeada<Aeronave>();
+
+        String[] aCompanhias = {"GOL", "AZUL", "LATAM", "AVIANCA", "TAM"};
+
+        Random oRandom = new Random();
+
+        for(int iAeronave = 0; iAeronave < iQuantidade; iAeronave++) {
+            String sCompanhia = aCompanhias[oRandom.nextInt(aCompanhias.length)];
+            int iTempoEspera  = oRandom.nextInt(21);
+            int iCombustivel  = eTipoOperacao == TipoOperacao.DECOLAGEM ? 100 : oRandom.nextInt(101);
+
+            Aeronave oAeronave = this.criarAeronave(sCompanhia, eTipoOperacao, iTempoEspera);
+            oAeronave.setCombustivel(iCombustivel);
+
+            if(oAeronave.getCombustivel() < 20 || oAeronave.getTempoEspera() > 20) {
+                oAeronave.setPrioridade(Aeronave.PRIORIDADE_ALTA);
+            }
+            else if(oAeronave.getCombustivel() < 40 || oAeronave.getTempoEspera() > 10) {
+                oAeronave.setPrioridade(Aeronave.PRIORIDADE_MEDIA);
+            }
+
             oAeronaves.adicionar(oAeronave);
         }
 
